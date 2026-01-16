@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pendium</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 40%, #0f0f0f 0%, #020202 45%, #000 100%);
+      font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono",
+        monospace;
+      color: #d8d8d8;
+      overflow: hidden;
+    }
+
+    .orb {
+      width: min(74vmin, 520px);
+      height: min(74vmin, 520px);
+      border-radius: 50%;
+      background: transparent;
+      box-shadow: 0 0 80px rgba(0, 0, 0, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .orb::before {
+      content: "";
+      position: absolute;
+      inset: -10%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 45%, transparent 70%);
+      mix-blend-mode: screen;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .ascii-layer {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .ascii {
+      margin: 0;
+      line-height: 1;
+      letter-spacing: 0;
+      font-size: 12px;
+      white-space: pre;
+      user-select: none;
+    }
+
+    .ascii-bg {
+      color: #3a3a3a;
+      opacity: 0.85;
+    }
+
+    .ascii-fg {
+      color: transparent;
+      background: linear-gradient(90deg, #7ef9ff, #b36bff, #ff6bd6, #ffd36b);
+      background-size: 240% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: spectrum 12s ease-in-out infinite;
+    }
+
+    .signature {
+      position: fixed;
+      left: 20px;
+      bottom: 16px;
+      font-size: 14px;
+      color: #bdbdbd;
+      letter-spacing: 0.2px;
+      white-space: pre-line;
+    }
+
+    .signature a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .signature a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes spectrum {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="orb" aria-hidden="true">
+    <div class="ascii-layer">
+      <pre class="ascii ascii-bg" id="ascii-bg"></pre>
+    </div>
+    <div class="ascii-layer">
+      <pre class="ascii ascii-fg" id="ascii"></pre>
+    </div>
+  </div>
+  <div class="signature">
+    Pendium
+    Futuristic digital products
+    <a href="mailto:hello@pendium.co">hello@pendium.co</a>
+  </div>
+
+  <script>
+    const asciiEl = document.getElementById("ascii");
+    const asciiBgEl = document.getElementById("ascii-bg");
+    const orbEl = document.querySelector(".orb");
+
+    let cols = 0;
+    let rows = 0;
+    let cell = { w: 8, h: 12 };
+    const drops = [];
+    const barChars = ["|", ":", "!", "i"];
+    const peakChars = ["^", "*", "+"];
+    let lastTime = 0;
+
+    function measureCell() {
+      const probe = document.createElement("span");
+      probe.textContent = "M";
+      probe.style.fontSize = getComputedStyle(asciiEl).fontSize;
+      probe.style.visibility = "hidden";
+      probe.style.position = "absolute";
+      document.body.appendChild(probe);
+      const rect = probe.getBoundingClientRect();
+      cell = { w: rect.width, h: rect.height };
+      document.body.removeChild(probe);
+    }
+
+    function resizeGrid() {
+      const { width, height } = orbEl.getBoundingClientRect();
+      const fontSize = Math.max(11, Math.floor(width / 28)) + "px";
+      asciiEl.style.fontSize = fontSize;
+      asciiEl.style.lineHeight = "1";
+      asciiBgEl.style.fontSize = fontSize;
+      asciiBgEl.style.lineHeight = "1";
+      measureCell();
+      cols = Math.max(8, Math.floor(width / cell.w));
+      rows = Math.max(8, Math.floor(height / cell.h));
+    }
+
+    function addDrop(x, y) {
+      drops.push({
+        x,
+        y,
+        vy: 0.5 + Math.random() * 0.8,
+        char: Math.random() > 0.5 ? "." : "`",
+      });
+    }
+
+    function updateDrops() {
+      for (let i = drops.length - 1; i >= 0; i -= 1) {
+        const drop = drops[i];
+        drop.y += drop.vy;
+        if (drop.y >= rows) {
+          drops.splice(i, 1);
+        }
+      }
+    }
+
+    function renderFrame(time) {
+      const delta = Math.min(0.05, (time - lastTime) / 1000);
+      lastTime = time;
+
+      const t = time * 0.0012;
+      const grid = Array.from({ length: rows }, () =>
+        Array.from({ length: cols }, () => " ")
+      );
+      const bgGrid = Array.from({ length: rows }, () =>
+        Array.from({ length: cols }, () => " ")
+      );
+
+      const base = rows * 0.5;
+      const amp = rows * 0.22;
+      const amp2 = rows * 0.12;
+      const freq = 0.35;
+      const freq2 = 0.18;
+      const ambientChars = [".", ":", "*", "'"];
+
+      const driftX = Math.sin(time * 0.00018) * 4.5;
+      const driftY = Math.cos(time * 0.00014) * 3.5;
+
+      for (let y = 0; y < rows; y += 1) {
+        for (let x = 0; x < cols; x += 1) {
+          const px = x + driftX;
+          const py = y + driftY;
+          const field =
+            Math.sin(px * 0.28 + t * 0.6) +
+            Math.sin(py * 0.22 - t * 0.45) +
+            Math.sin((px + py) * 0.12 + t * 0.3);
+          if (field > 1.15) {
+            bgGrid[y][x] = ambientChars[(x + y) % ambientChars.length];
+          } else if (field > 0.85) {
+            bgGrid[y][x] = ambientChars[(x + y + 1) % ambientChars.length];
+          } else if (field < -1.35) {
+            bgGrid[y][x] = ".";
+          }
+        }
+      }
+
+      const barStride = 2;
+      for (let x = 0; x < cols; x += 1) {
+        if (x % barStride !== 0) {
+          continue;
+        }
+        const magnitude = Math.abs(
+          Math.sin(x * freq + t) * amp + Math.sin(x * freq2 - t * 1.4) * amp2
+        );
+        const height = Math.max(1, Math.round(magnitude));
+        const center = Math.round(base);
+        const top = Math.max(0, center - height);
+        const bottom = Math.min(rows - 1, center + height);
+
+        for (let y = bottom; y >= top; y -= 1) {
+          const gap = Math.sin(x * 0.6 + y * 0.22 + t * 1.2);
+          if (gap > 0.92) {
+            continue;
+          }
+          const wash = Math.sin(t * 1.8 + x * 0.35 - y * 0.2);
+          if (y === top || y === bottom) {
+            const peakIndex = Math.floor((wash + 1) * 0.5 * peakChars.length);
+            grid[y][x] = peakChars[peakIndex % peakChars.length];
+          } else if (wash > 0.35) {
+            grid[y][x] = barChars[(x + y) % barChars.length];
+          } else {
+            grid[y][x] = barChars[0];
+          }
+        }
+
+        if (Math.random() < 0.004 * delta * 60) {
+          addDrop(x, top - 1);
+        }
+      }
+
+      updateDrops();
+      drops.forEach((drop) => {
+        if (drop.y >= 0 && drop.y < rows) {
+          grid[Math.floor(drop.y)][drop.x] = drop.char;
+        }
+      });
+
+      asciiBgEl.textContent = bgGrid.map((row) => row.join("")).join("\n");
+      asciiEl.textContent = grid.map((row) => row.join("")).join("\n");
+      requestAnimationFrame(renderFrame);
+    }
+
+    resizeGrid();
+    window.addEventListener("resize", resizeGrid);
+    requestAnimationFrame(renderFrame);
+  </script>
+</body>
+
+</html>
