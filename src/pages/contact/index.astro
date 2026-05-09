@@ -1,0 +1,292 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact — Pendium"
+  description="Start a Discovery Sprint or get in touch with Pendium about AI implementation for your company."
+>
+  <section class="contact-hero">
+    <div class="container contact__inner">
+      <div class="contact__content">
+        <span class="label label--accent">Contact</span>
+        <h1 class="mt-16">Let's get specific<br/>about your AI opportunity.</h1>
+        <p class="mt-24">
+          The best starting point is usually a Discovery Sprint — two weeks, fixed price,
+          clear output. Tell us what you're working on and we'll take it from there.
+        </p>
+
+        <div class="contact-options mt-48">
+          <div class="contact-option">
+            <span class="label">Email</span>
+            <a href="mailto:hello@pendium.co" class="contact-option__value mt-8">hello@pendium.co</a>
+            <p class="mt-8">Best for initial introductions and project briefs. We respond within one business day.</p>
+          </div>
+        </div>
+
+        <div class="mt-48">
+          <span class="label">Tell us about your project</span>
+          <form class="contact-form mt-24" name="contact" method="POST" data-netlify="true" action="/contact/success">
+            <input type="hidden" name="form-name" value="contact" />
+
+            <div class="form-field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required placeholder="Your name" />
+            </div>
+
+            <div class="form-field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="you@company.com" />
+            </div>
+
+            <div class="form-field">
+              <label for="company">Company</label>
+              <input type="text" id="company" name="company" placeholder="Company name" />
+            </div>
+
+            <div class="form-field">
+              <label for="interest">What are you looking for?</label>
+              <select id="interest" name="interest">
+                <option value="">Select one</option>
+                <option value="discovery-sprint">Discovery Sprint</option>
+                <option value="ai-assistants">AI Assistant Design & Deployment</option>
+                <option value="knowledge-management">Knowledge Management System</option>
+                <option value="automation">Design & Tech Automation</option>
+                <option value="retainer">Embedded Retainer</option>
+                <option value="unsure">Not sure yet</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="message">Tell us about the project</label>
+              <textarea id="message" name="message" rows="6" placeholder="What's the problem you're trying to solve? What does your current setup look like? What would success look like?"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary">Send →</button>
+          </form>
+        </div>
+      </div>
+
+      <aside class="contact__sidebar">
+        <div class="sprint-card">
+          <span class="label label--accent">Recommended starting point</span>
+          <h3 class="mt-16">Discovery Sprint</h3>
+          <p class="mt-12">Two weeks. A clear-eyed audit of your AI opportunity, a prioritized roadmap, and a plan you can act on. Fixed price. No ongoing commitment required.</p>
+          <div class="sprint-card__price mt-24">
+            <span class="sprint-card__price-value">$8,000–$15,000</span>
+            <span class="sprint-card__price-label">Fixed price · 2 weeks</span>
+          </div>
+          <ul class="sprint-card__includes mt-24">
+            <li>Current-state audit</li>
+            <li>AI opportunity mapping</li>
+            <li>Prioritized recommendations</li>
+            <li>Implementation roadmap</li>
+            <li>1 hour readout call</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-note">
+          <span class="label">Capacity</span>
+          <p class="mt-12">Pendium takes on a limited number of engagements at a time to maintain quality. If you're planning ahead, reach out early.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-hero {
+    padding-top: calc(var(--nav-h) + 80px);
+    padding-bottom: 96px;
+  }
+
+  .contact__inner {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact__content > p {
+    font-size: 16px;
+    line-height: 1.8;
+    max-width: 52ch;
+  }
+
+  .contact-options {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .contact-option {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-option__value {
+    display: inline-block;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-1);
+    transition: opacity 0.15s;
+  }
+
+  .contact-option__value:hover { opacity: 0.7; }
+
+  .contact-option p {
+    font-size: 13px;
+    max-width: none;
+    margin-top: 8px;
+  }
+
+  /* ── Form ── */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-field label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.15s;
+    resize: vertical;
+  }
+
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus {
+    border-color: var(--accent-2);
+  }
+
+  .form-field input::placeholder,
+  .form-field textarea::placeholder {
+    color: var(--text-dim);
+  }
+
+  .form-field select option {
+    background: var(--bg-card);
+  }
+
+  /* ── Sidebar ── */
+  .contact__sidebar {
+    position: sticky;
+    top: calc(var(--nav-h) + 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .sprint-card {
+    padding: 36px;
+    border: 1px solid var(--accent-2);
+    background: var(--bg-card);
+  }
+
+  .sprint-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .sprint-card p {
+    font-size: 13px;
+    line-height: 1.7;
+    max-width: none;
+  }
+
+  .sprint-card__price {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sprint-card__price-value {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .sprint-card__price-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .sprint-card__includes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sprint-card__includes li {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .sprint-card__includes li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent-1);
+  }
+
+  .sidebar-note {
+    padding: 24px;
+    border: 1px solid var(--border);
+  }
+
+  .sidebar-note p {
+    font-size: 13px;
+    line-height: 1.7;
+    max-width: none;
+  }
+
+  @media (max-width: 1024px) {
+    .contact__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .contact__sidebar {
+      position: static;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sprint-card {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .contact__sidebar {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

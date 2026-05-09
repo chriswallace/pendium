@@ -1,0 +1,238 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About — Pendium"
+  description="Pendium is a boutique AI implementation firm founded by Chris Wallace. We design AI assistants, knowledge management systems, and automation services for technology, media, and internet businesses."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="label label--accent">About</span>
+      <h1 class="mt-16">The implementation layer<br/>between AI and your business.</h1>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <section class="about-body">
+    <div class="container about-body__inner">
+      <div class="about-body__main">
+        <div class="about-section">
+          <span class="label">What we believe</span>
+          <div class="about-text mt-24">
+            <p>The gap between AI hype and AI value is an implementation problem. The technology is available to every company. What's rare is the judgment to deploy it well — to design systems that fit how teams actually work, that stay accurate over time, and that people actually use.</p>
+            <p>Most AI rollouts fail at the handoff: the moment between "we built it" and "the team uses it." Pendium closes that gap.</p>
+          </div>
+        </div>
+
+        <div class="about-section">
+          <span class="label">How we work</span>
+          <div class="about-text mt-24">
+            <p>Pendium is a boutique practice. Every engagement is led by a senior practitioner — not handed off to a delivery team after the first call. Clients work directly with the person who designed the system.</p>
+            <p>We operate as a high-trust partner, not a vendor. That means fewer clients, longer relationships, and work we're willing to put our name on.</p>
+            <p>Specialist collaborators — in data engineering, design, and backend infrastructure — are brought in on engagements that require them. The core commitment stays the same: senior judgment on every decision.</p>
+          </div>
+        </div>
+
+        <div class="about-section">
+          <span class="label">What we build</span>
+          <div class="about-text mt-24">
+            <p><strong>AI assistants</strong> — designed as products with behavioral specification, escalation logic, and evaluation frameworks. Not chatbots bolted onto forms.</p>
+            <p><strong>Knowledge management systems</strong> — RAG pipelines, vector databases, and search interfaces that make organizational knowledge findable, trustworthy, and AI-accessible. Designed with accuracy and governance from the start.</p>
+            <p><strong>Design and tech automation</strong> — AI pipelines for creative and engineering workflows. We bridge design tools and engineering environments, building automation that teams actually adopt.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="about-body__sidebar">
+        <div class="founder-card">
+          <span class="label">Founder</span>
+          <h3 class="mt-16">Chris Wallace</h3>
+          <p class="mt-12">Designer, systems thinker, and AI practitioner with deep experience in AI assistant design, knowledge management architecture, and creative automation.</p>
+          <p class="mt-12">Based in the US. Works with companies across North America and Europe.</p>
+          <a href="mailto:hello@pendium.co" class="founder-card__email mt-24">hello@pendium.co</a>
+        </div>
+
+        <div class="sidebar-block">
+          <span class="label">Engagement types</span>
+          <ul class="sidebar-list mt-16">
+            <li>
+              <strong>Discovery Sprint</strong>
+              <span>$8K–$15K · 2 weeks</span>
+            </li>
+            <li>
+              <strong>Project</strong>
+              <span>$30K–$120K · 6–16 weeks</span>
+            </li>
+            <li>
+              <strong>Embedded Retainer</strong>
+              <span>$8K–$25K/mo · ongoing</span>
+            </li>
+            <li>
+              <strong>Workshop</strong>
+              <span>$3K–$8K · half or full day</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-block">
+          <span class="label">Industries served</span>
+          <ul class="sidebar-list mt-16">
+            <li><span>Technology & SaaS</span></li>
+            <li><span>Media & Publishing</span></li>
+            <li><span>E-Commerce & Retail</span></li>
+            <li><span>Marketing & Agencies</span></li>
+            <li><span>Legal & Professional</span></li>
+            <li><span>Financial Services</span></li>
+            <li><span>Healthcare & HealthTech</span></li>
+            <li><span>Education & EdTech</span></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <section class="about-cta">
+    <div class="container">
+      <span class="label">Work together</span>
+      <h2 class="mt-16">Ready to get specific?</h2>
+      <p class="mt-16">The Discovery Sprint is the lowest-commitment way to start. Two weeks, fixed price, clear output.</p>
+      <div class="mt-32">
+        <a href="/contact" class="btn btn--primary">Start a conversation →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-top: calc(var(--nav-h) + 80px);
+    padding-bottom: 80px;
+  }
+
+  .about-body__inner {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-section {
+    padding-bottom: 64px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+  }
+
+  .about-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: none;
+    color: var(--text-muted);
+  }
+
+  .about-text strong {
+    color: var(--text);
+  }
+
+  .about-body__sidebar {
+    position: sticky;
+    top: calc(var(--nav-h) + 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .founder-card {
+    padding: 32px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+
+  .founder-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .founder-card p {
+    font-size: 13px;
+    line-height: 1.7;
+    max-width: none;
+  }
+
+  .founder-card__email {
+    display: inline-block;
+    font-size: 13px;
+    color: var(--accent-1);
+    transition: opacity 0.15s;
+  }
+
+  .founder-card__email:hover { opacity: 0.7; }
+
+  .sidebar-block {
+    padding: 28px;
+    border: 1px solid var(--border);
+  }
+
+  .sidebar-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sidebar-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sidebar-list strong {
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .sidebar-list span {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .about-cta {
+    background: var(--bg-subtle);
+    padding: 96px 0;
+  }
+
+  @media (max-width: 1024px) {
+    .about-body__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .about-body__sidebar {
+      position: static;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .founder-card {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .about-body__sidebar {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
