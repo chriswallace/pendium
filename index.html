@@ -35,7 +35,11 @@ document.addEventListener('DOMContentLoaded', async function() {
   function setStatus(msg) { if (loading) loading.textContent = msg; }
 
   // Error sink persists across replaceWith since it's on window, not the DOM.
+  // Only surface errors from our blob-URL assets — ignore browser-injected scripts
+  // (e.g. Chrome WebView's __gCrWeb, Safari's reader scripts, extension content scripts).
   window.addEventListener('error', function(e) {
+    var src = e.filename || '';
+    if (src && !src.startsWith('blob:')) return;
     var p = document.body || document.documentElement;
     var d = document.getElementById('__bundler_err') || p.appendChild(document.createElement('div'));
     d.id = '__bundler_err';
