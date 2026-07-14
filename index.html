@@ -475,15 +475,6 @@
           y: PIVOT.y + Math.cos(theta) * ROD,
         };
 
-        // the dial: a static arc marking the full swing, like an instrument scale
-        for (let k = 0; k <= 56; k += 1) {
-          const a = -AMPLITUDE + (2 * AMPLITUDE * k) / 56;
-          put(PIVOT.x + Math.sin(a) * ROD * X_SCALE, PIVOT.y + Math.cos(a) * ROD, ".");
-        }
-        put(PIVOT.x - Math.sin(AMPLITUDE) * ROD * X_SCALE, PIVOT.y + Math.cos(AMPLITUDE) * ROD, "+");
-        put(PIVOT.x + Math.sin(AMPLITUDE) * ROD * X_SCALE, PIVOT.y + Math.cos(AMPLITUDE) * ROD, "+");
-        put(PIVOT.x, PIVOT.y + ROD, "+");
-
         if (!reduceMotion) {
           const dt = Math.min(0.05, last ? t - last : 0.016);
           last = t;
